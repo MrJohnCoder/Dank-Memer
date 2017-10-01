@@ -1,6 +1,6 @@
 exports.run = async function (Memer, msg, args) {
 	if (!args[0]) {
-		const funemoji = msg.channel.permissionsOf(Memer.bot.user.id).has('externalEmojis') ? '<:feelsgreatman:326155536800284673>' : ':joy:'
+		const funemoji = msg.channel.permissionsOf(Memer.bot.user.id).has('externalEmojis') ? '<:feelsgreatman:326155536800284673>' : ':joy:';
 		msg.channel.createMessage({
 			embed: {
 				color: Memer.colors.purple,
@@ -15,29 +15,31 @@ exports.run = async function (Memer, msg, args) {
 				],
 				footer: { text: 'Want access to donor commands? Donate here: https://www.patreon.com/melmsie' }
 			}
-		})
+		});
 	} else {
 		if (!Memer.cmds.has(args[0]) && !Memer.aliases.has(args[0])) {
-			return
+			return;
 		}
 
-		const prefix = (await Memer.db.getGuild(msg.channel.guild.id) || Memer.defaultGuildConfig).prefix
+		const prefix = (await Memer.db.getGuild(msg.channel.guild.id) || Memer.defaultGuildConfig).prefix;
 
-		const props = Memer.cmds.has(args[0]) ? Memer.cmds.get(args[0]).props : Memer.cmds.get(Memer.aliases.get(args[0])).props
-		msg.channel.createMessage({ embed: {
-			fields: [
-				{ 'name': 'Description:', 'value': props.description, inline: false },
-				{ 'name': 'Usage:', 'value': Memer.codeblock(props.usage.replace('{command}', `${prefix} ${props.name}`)), inline: false },
-				{ 'name': 'Aliases:', 'value': props.aliases[0] ? props.aliases.join(', ') : 'None', inline: false }
-			]
-		} })
+		const props = Memer.cmds.has(args[0]) ? Memer.cmds.get(args[0]).props : Memer.cmds.get(Memer.aliases.get(args[0])).props;
+		msg.channel.createMessage({
+			embed: {
+				fields: [
+					{ 'name': 'Description:', 'value': props.description, inline: false },
+					{ 'name': 'Usage:', 'value': Memer.codeblock(props.usage.replace('{command}', `${prefix} ${props.name}`)), inline: false },
+					{ 'name': 'Aliases:', 'value': props.aliases[0] ? props.aliases.join(', ') : 'None', inline: false }
+				]
+			}
+		});
 	}
-}
+};
 
 exports.props = {
-	name        : 'help',
-	usage       : '{command}',
-	aliases     : ['cmds', 'commands'],
-	cooldown    : 1000,
-	description : 'See a list of commands available.'
-}
+	name: 'help',
+	usage: '{command}',
+	aliases: ['cmds', 'commands'],
+	cooldown: 1000,
+	description: 'See a list of commands available.'
+};

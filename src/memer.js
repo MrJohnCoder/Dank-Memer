@@ -1,12 +1,12 @@
-const config = require('./config.json')
-const metrics = require('datadog-metrics')
+const config = require('./config.json');
+const metrics = require('datadog-metrics');
 metrics.init({
 	apiKey: config.datadog.APIkey,
 	appKey: config.datadog.APPkey,
 	flushIntervalSeconds: 10,
 	prefix: 'dank.'
-})
-const Sharder = require('eris-sharder').Master
+});
+const Sharder = require('eris-sharder').Master;
 //const snek = require('snekfetch')
 const r = require('rethinkdbdash')()
 const master = new Sharder(config.token, '/mainClass.js', {
@@ -14,7 +14,7 @@ const master = new Sharder(config.token, '/mainClass.js', {
 	stats: true,
 	webhooks: config.webhooks,
 	clientOptions: config.clientOptions
-})
+});
 
 /*
 const botlists = new Map([
@@ -24,12 +24,12 @@ const botlists = new Map([
 ])
 */
 master.on('stats', res => {
-	metrics.gauge('totalGuilds', res.guilds)
-	metrics.gauge('totalRam', res.totalRam)
-	metrics.gauge('totalUsers', res.users)
+	metrics.gauge('totalGuilds', res.guilds);
+	metrics.gauge('totalRam', res.totalRam);
+	metrics.gauge('totalUsers', res.users);
 	r.table('stats')
 		.insert({ id: 1, stats: res }, { conflict: 'update' })
-		.run()
+		.run();
 	/*
 	botlists.forEach(async (token, url) => {
 		await snek
@@ -42,4 +42,4 @@ master.on('stats', res => {
 			.end()
 	})
 	*/
-})
+});

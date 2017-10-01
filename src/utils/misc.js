@@ -1,6 +1,6 @@
-const config = require('../config.json')
-const moment = require('moment')
-require('moment-duration-format')
+const config = require('../config.json');
+const moment = require('moment');
+require('moment-duration-format');
 
 module.exports = {
 	colors: {
@@ -26,28 +26,28 @@ module.exports = {
 	intro: `My name is Dank Memer.\n\nTo get started, send \`${config.defaultPrefix} help\`. All commands are run this way, for example, pls meme.\n\nI am maintained by Melmsie#0006, who can be found at [this server](https://discord.gg/3GNMJBG) if you need to talk to him.`,
 
 	randomColor: () => {
-		const letters = '0123456789'
-		let color = ''
+		const letters = '0123456789';
+		let color = '';
 		for (let i = 0; i < 7; i++) {
-			color += letters[Math.floor(Math.random() * 10)]
+			color += letters[Math.floor(Math.random() * 10)];
 		}
 
-		return color
+		return color;
 	},
 
 	randomInArray: (array) => {
-		return array[Math.floor(Math.random() * array.length)]
+		return array[Math.floor(Math.random() * array.length)];
 	},
 
 	removeDuplicates: (array) => {
-		return Array.from(new Set(array).values())
+		return Array.from(new Set(array).values());
 	},
 
 	codeblock: (str, lang) => {
-		return `${'```'}${lang || ''}\n${str}\n${'```'}`
+		return `${'```'}${lang || ''}\n${str}\n${'```'}`;
 	},
 
 	parseTime: (time, format) => {
-		return moment.duration(parseInt(time), format || 'seconds').format('dd:hh:mm:ss')
+		return moment.duration(parseInt(time), format || 'seconds').format('dd:hh:mm:ss');
 	}
 }
