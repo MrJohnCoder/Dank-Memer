@@ -22,23 +22,30 @@ const botlists = new Map([
   ['https://www.carbonitex.net/discord/data/botdata.php', config.carbon]
 ])
 
+let guilds = 0
+
 master.on('stats', res => {
   
   metrics.gauge('totalGuilds', res.guilds)
   metrics.gauge('totalRam', res.totalRam)
   metrics.gauge('totalUsers', res.users)
  
+  guilds = res.guilds
+  
   r.table('stats')
     .insert({ id: 1, stats: res }, { conflict: 'update' })
     .run()
-  botlists.forEach(async (token, url) => {
+})
+
+setInterval(() => {
+botlists.forEach(async (token, url) => {
     await snek
       .post(url)
       .set('Authorization', token)
       .send({
-        [`server${url.includes('carbonitex') ? '' : '_'}count`]: res.guilds, // matt plz
+        [`server${url.includes('carbonitex') ? '' : '_'}count`]: guilds, // matt plz
         key: token
       })
       .end()
   })
-})
+}, 1000 * 60 * 5)
